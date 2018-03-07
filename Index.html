@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <?!= include('Stylesheet'); ?>
+  </head>
+  <body>
+    <h1>Welcome</h1>
+    
+    <input type="button" value="Not Clicked"
+      onclick="google.script.run
+          .withSuccessHandler(updateButton)
+          .withUserObject(this)
+          .getEmail()" />
+    <input type="button" value="Not Clicked"
+      onclick="google.script.run
+          .withSuccessHandler(updateButton)
+          .withUserObject(this)
+          .getEmail()" />
+    
+    <p>Please enjoy this helpful script.</p>
+    <?!= include('JavaScript'); ?>
+  </body>
+</html>
