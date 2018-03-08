@@ -1,4 +1,3 @@
-
 var FileTrackSpreadsheetMigrator;
 
 (function( FileTrackSpreadsheetMigrator, undefined ) { 
@@ -8,7 +7,7 @@ var FileTrackSpreadsheetMigrator;
   var spreadVersion = undefined;
  
   FileTrackSpreadsheetMigrator.Load = function() {
-    spreadId = WEDataHelper.FileTrackSpreadsheetId();
+    spreadId = WEDataHelper.GetFileTrackSpreadsheetId();
     //Logger.log("WEDataHelper.FileTrackSpreadsheetId: "+WEDataHelper.FileTrackSpreadsheetId());
     //Logger.log("spreadId: "+spreadId);
     spread = SpreadsheetApp.openById(spreadId);

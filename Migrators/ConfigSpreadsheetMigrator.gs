@@ -1,4 +1,3 @@
-
 var ConfigSpreadsheetMigrator;
 
 (function( ConfigSpreadsheetMigrator, undefined ) { 
@@ -8,7 +7,7 @@ var ConfigSpreadsheetMigrator;
   var spreadVersion = undefined;
   
   ConfigSpreadsheetMigrator.Load = function() {
-    spreadId = WEDataHelper.ConfigSpreadsheetId();
+    spreadId = WEDataHelper.GetConfigSpreadsheetId();
     //Logger.log("WEDataHelper.ConfigSpreadsheetId: "+WEDataHelper.ConfigSpreadsheetId());
     //Logger.log("spreadId: "+spreadId);
     spread = SpreadsheetApp.openById(spreadId);

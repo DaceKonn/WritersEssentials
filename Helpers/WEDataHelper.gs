@@ -12,15 +12,15 @@ var WEDataHelper;
   var FILE_TRACK_SPREADSHEET_ID = undefined;
   var DATA_SPREADSHEET_ID = undefined;
   
-  WEDataHelper.ConfigSpreadsheetId = function(){
+  WEDataHelper.GetConfigSpreadsheetId = function(){
     return CONFIG_SPREADSHEET_ID;
   }
   
-  WEDataHelper.FileTrackSpreadsheetId = function(){
+  WEDataHelper.GetFileTrackSpreadsheetId = function(){
     return FILE_TRACK_SPREADSHEET_ID;
   }
   
-  WEDataHelper.DataSpreadsheetId = function(){
+  WEDataHelper.GetDataSpreadsheetId = function(){
     return DATA_SPREADSHEET_ID;
   }
   
@@ -34,6 +34,10 @@ var WEDataHelper;
     DATA_SPREADSHEET_ID = DriveHelper.GetOrInitGoogleFile(DATA_SPREADSHEET_NAME, MAIN_FOLDER_ID, "spreadsheet");
     
     MainMigrator.Run();
+  }
+  
+  WEDataHelper.GetTrackedFiles = function() {
+    SpreadsheetApp.openById(FILE_TRACK_SPREADSHEET_ID);
   }
   
 }( WEDataHelper = WEDataHelper || {} ));

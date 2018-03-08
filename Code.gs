@@ -1,8 +1,10 @@
 var WRITING_DATA = "1TpS1a09uQzb_s8dmt9QeotEI-nGbz_9p0dV4R0A_o6A";
+var TEST_FILE = "1KSBh8UoKhUTs6ML1jtBeY71KPZC53YLJAGelnncksIQ";
 
 function doGet(request) {
   WEDataHelper.InitData();
-
+  //FileTrackService.AddFileToTrack(TEST_FILE);
+  FileTrackService.GetTrackedFilesIds();
   //trigger();
   //logTriggers()
   

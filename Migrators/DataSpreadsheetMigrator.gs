@@ -1,4 +1,3 @@
-
 var DataSpreadsheetMigrator;
 
 (function( DataSpreadsheetMigrator, undefined ) { 
@@ -8,7 +7,7 @@ var DataSpreadsheetMigrator;
   var spreadVersion = undefined;
   
   DataSpreadsheetMigrator.Load = function() {
-    spreadId = WEDataHelper.DataSpreadsheetId();
+    spreadId = WEDataHelper.GetDataSpreadsheetId();
     spread = SpreadsheetApp.openById(spreadId);
     
   }

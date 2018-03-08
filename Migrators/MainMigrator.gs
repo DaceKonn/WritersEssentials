@@ -1,4 +1,3 @@
-
 var MainMigrator;
 
 (function( MainMigrator, undefined ) { 
