@@ -28,15 +28,8 @@ var FileTrackSpreadsheetMigrator;
   
   FileTrackSpreadsheetMigrator.MigrateToVersion1 = function(){
     Logger.log("Migrating FileTrack Spreadsheet to version 1");
-    var sheet = spread.insertSheet("FileTrack");
-    DriveHelper.RemoveColumnsAndRows(sheet);
-    sheet.insertColumnsAfter(1,3);
-    
-    var range = sheet.getRange(1,1,1,4);
-    
-    var newValues = [["SourceFile", "SnapshotFile", "SnapshotDate", "FileGoal"]];
-    range.setValues(newValues);
-    range.protect().setWarningOnly(true);
+    SheetHelper.CreateSheetWithColumns(spread, "FileTrack", ["FileId", "SnapshotID"]);
+    SheetHelper.CreateSheetWithColumns(spread, "FileGoals", ["FileId", "Goal"]);
     
     SetVersion(spread, 1);
   }

@@ -28,17 +28,14 @@ var ConfigSpreadsheetMigrator;
   
   ConfigSpreadsheetMigrator.MigrateToVersion1 = function(){
     Logger.log("Migrating Config Spreadsheet to version 1");
+    var sheet = SheetHelper.CreateSheetWithColumns(spread, "Config", ["Config", "Value"]);
+    SheetHelper.AddRow(sheet, ["InstallDate", DateTimeHelper.GetNowUTC()]);
     
-    var sheet = spread.insertSheet("Config");
-    DriveHelper.RemoveColumnsAndRows(sheet);
-    sheet.insertColumnAfter(1);
+    sheet = SheetHelper.CreateSheetWithColumns(spread, "DailyGoal", ["SetDate","Goal"]);
+    SheetHelper.AddRow(sheet, [DateTimeHelper.FormatToUTC(new Date(1900, 01, 01)), 500]);
     
-    var range = sheet.getRange(1,1,1,2);
     
-    var newValues = [["_WE_FileTrack", WEDataHelper.FileTrackSpreadsheetId()]];
-    range.setValues(newValues);
-    range.protect().setWarningOnly(true);
-    
+        
     SetVersion(spread, 1);
   }
  
