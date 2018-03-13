@@ -30,7 +30,11 @@ var DateTimeHelper;
   }
   
   DateTimeHelper.FormatToCalendar = function(inputDate) {
-    Utilities.formatDate(inputDate, DateTimeHelper.GetCalendarTimeZone(), "yyyy-MM-dd HH:mm:ss z Z");
+    return Utilities.formatDate(inputDate, DateTimeHelper.GetCalendarTimeZone(), "yyyy-MM-dd HH:mm:ss z Z");
+  }
+  
+  DateTimeHelper.FormatToSimpliefiedCalendar = function(inputDate) {
+    return Utilities.formatDate(inputDate, DateTimeHelper.GetCalendarTimeZone(), "yyyy-MM-dd");
   }
   
 }( DateTimeHelper = DateTimeHelper || {} ));

@@ -24,6 +24,7 @@ var DriveHelper;
       if (type == "document")
       {
         var doc =  DocumentApp.create(name);
+        
         fileId = doc.getId();
       }
       else if (type == "spreadsheet")
@@ -58,18 +59,31 @@ var DriveHelper;
     return fileId;
   }
   
-  DriveHelper.GetOrInitFolder = function(name) {
+  /**
+  *Gets folder by name or creates one
+  *@param {string} name - the name of the folder to find/create
+  *@param {string} parentId - id of parent folder, will use root if not given
+  */
+  DriveHelper.GetOrInitFolder = function(name, parentId) {
     var logTag = "{GetOrInitFolder} : ";
+    var parentFolder = undefined;
     
+    if (parentId == undefined) {
+      parentFolder = DriveApp.getRootFolder();
+    }
+    else {
+      parentFolder = DriveApp.getFolderById(parentId);
+    }
+      
     Logger.log(logTag+"Fetching folder: ["+ name+"]");
-    var folderIterator =  DriveApp.getFoldersByName(name);
+    var folderIterator =  parentFolder.getFoldersByName(name);
     
     var folderId;
     
     if (!folderIterator.hasNext()){
       Logger.log(logTag+"Folder not found: ["+ name+"]");
       
-      var folder =  DriveApp.createFolder(name);
+      var folder =  parentFolder.createFolder(name);
       folderId = folder.getId();
       
       //Logger.log(logTag+"Folder created: ["+ name+"] - ["+folderId+"]");
@@ -83,6 +97,7 @@ var DriveHelper;
     }
     
     return folderId;
+    
   }
   
   function InitVersionFieldForSpreadsheet(spreadsheet) {

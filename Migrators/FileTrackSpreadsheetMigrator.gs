@@ -27,7 +27,7 @@ var FileTrackSpreadsheetMigrator;
   
   FileTrackSpreadsheetMigrator.MigrateToVersion1 = function(){
     Logger.log("Migrating FileTrack Spreadsheet to version 1");
-    SheetHelper.CreateSheetWithColumns(spread, "FileTrack", ["FileId", "SnapshotID"]);
+    SheetHelper.CreateSheetWithColumns(spread, "FileTrack", ["FileId", "SnapshotId"]);
     SheetHelper.CreateSheetWithColumns(spread, "FileGoals", ["FileId", "Goal"]);
     
     SetVersion(spread, 1);
