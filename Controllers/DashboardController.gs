@@ -7,22 +7,13 @@ DashboardController.GetDashboardData = function() {
   
   var stats = DashboardService.GetStats();
   
-  var template = "{ \"Stats\": {";
   var temp = {};
   temp.Stats = {};
   
-  var statsTemp = [];
   stats.forEach(function(item, index) {
     temp.Stats[item[0]] = item[1];
-    statsTemp.push("\""+item[0]+"\": "+"\""+item[1]+"\"");
   });
-  template += statsTemp.join(",");
-  template += "} }";
-  
-  var result = JSON.stringify(template);
-  
-  
-  
+
   return temp;
 }
  
