@@ -1,12 +1,18 @@
 var DataService;
 
 (function( DataService, undefined ) { 
-
+  function AddProcessingDate(processingDate) {
+    var sheet = SheetHelper.LoadSheet(WEDataHelper.GetDataSpreadsheetId(), "Processings");
+    SheetHelper.AddRow(sheet, [processingDate]);
+  }
+  
   DataService.UpdateWordCounts = function() {
     var trackedFiles = FileTrackService.GetTrackingInfo();
     var processingDate = DateTimeHelper.GetNowUTC();
     var sheet = LoadDataSheet();
 
+    AddProcessingDate(processingDate);    
+    
     for (i in trackedFiles) { 
       var doc = DocumentApp.openById(trackedFiles[i][0]);
       var doc1 = doc.getText();  

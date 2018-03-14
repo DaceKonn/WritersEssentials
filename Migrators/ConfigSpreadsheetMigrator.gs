@@ -32,10 +32,15 @@ var ConfigSpreadsheetMigrator;
     
     sheet = SheetHelper.CreateSheetWithColumns(spread, "DailyGoal", ["SetDate","Goal"]);
     SheetHelper.AddRow(sheet, [DateTimeHelper.FormatToUTC(new Date(1900, 01, 01)), 500]);
-    
-    
-        
+
     SetVersion(spread, 1);
+  }
+  
+  ConfigSpreadsheetMigrator.MigrateToVersion2 = function(){
+    Logger.log("Migrating Config Spreadsheet to version 1");
+    SheetHelper.CreateSheetWithColumns(spread, "ImportantIds", ["Name", "Value"]);
+
+    SetVersion(spread, 2);
   }
  
 }( ConfigSpreadsheetMigrator = ConfigSpreadsheetMigrator || {} ));

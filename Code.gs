@@ -3,11 +3,7 @@ var TEST_FILE = "1KSBh8UoKhUTs6ML1jtBeY71KPZC53YLJAGelnncksIQ";
 
 function doGet(request) {
   WEDataHelper.InitData();
-  //FileTrackService.AddFileToTrack(TEST_FILE);
-  DataService.UpdateWordCounts();
-  //trigger();
-  //logTriggers()
-  
+
   return HtmlService.createTemplateFromFile('Index')
       .evaluate();
 }

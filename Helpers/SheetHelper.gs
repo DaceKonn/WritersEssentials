@@ -102,5 +102,10 @@ var SheetHelper;
     
     return -1;
   }
+  
+  SheetHelper.LoadSheet = function(spreadId, sheetName){
+    var spread = SpreadsheetApp.openById(spreadId);
+    return spread.getSheetByName(sheetName);
+  }
  
 }( SheetHelper = SheetHelper || {} ));

@@ -3,22 +3,55 @@
   <head>
     <base target="_top">
     <?!= include('Stylesheet'); ?>
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.brown-amber.min.css" />
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
   </head>
   <body>
-    <h1>Welcome</h1>
-    
-    <input type="button" value="Not Clicked"
-      onclick="google.script.run
-          .withSuccessHandler(updateButton)
-          .withUserObject(this)
-          .getEmail()" />
-    <input type="button" value="Not Clicked"
-      onclick="google.script.run
-          .withSuccessHandler(updateButton)
-          .withUserObject(this)
-          .getEmail()" />
-    
-    <p>Please enjoy this helpful script.</p>
+  
+  <!-- Always shows a header, even in smaller screens. -->
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <header class="mdl-layout__header">
+    <div class="mdl-layout__header-row">
+      <!-- Title -->
+      <span class="mdl-layout-title">Writer Essentials [PreAlpha]</span>
+      <!-- Add spacer, to align navigation to the right -->
+      <div class="mdl-layout-spacer"></div>
+      <!-- Navigation. We hide it in small screens. -->
+    </div>
+  </header>
+  <div class="mdl-layout__drawer">
+    <span class="mdl-layout-title">Title</span>
+    <nav class="mdl-navigation">
+      <a class="mdl-navigation__link" href="">Link</a>
+      <a class="mdl-navigation__link" href="">Link</a>
+      <a class="mdl-navigation__link" href="">Link</a>
+      <a class="mdl-navigation__link" href="">Link</a>
+    </nav>
+  </div>
+  <main class="mdl-layout__content">
+    <div class="page-content">
+    <!-- Your content goes here -->
+        <div class="mdl-grid">
+            <div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--3-col ">
+              <b>Average word count: </b><span id="avgWordCount">Loading...</span><br/>
+              <b>Total words written: </b><span id="totalWordCount">Loading...</span><br/>
+              <b>Days since instalation: </b><span id="daysSinceInstall">Loading...</span><br/>
+              <b>Writting days: </b><span id="writDays">Loading...</span><br/>
+              <b>Current goal streak: </b><span id="currGoal">Loading...</span><br/>
+              <b>Longest goal streak: </b><span id="longGoal">Loading...</span><br/>
+              <b>Current writing streak: </b><span id="currWrit">Loading...</span><br/>
+              <b>Longest writing streak: </b><span id="longWrit">Loading...</span>
+            </div>
+            <div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--9-col mdl-grid">
+              
+            </div>
+        </div>
+    </div>
+  </main>
+</div>
+
     <?!= include('JavaScript'); ?>
   </body>
 </html>

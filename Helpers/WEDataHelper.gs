@@ -1,7 +1,6 @@
 var WEDataHelper;
 
 (function( WEDataHelper, undefined ) { 
-  
   var MAIN_FOLDER_NAME = "_WritersEssentialsData";
   var SNAPSHOTS_FOLDER_NAME = "_WE_Snapshots";
   var CONFIG_SPREADSHEET_NAME = "_WE_MainConfig";
@@ -11,6 +10,7 @@ var WEDataHelper;
   
   var MAIN_FOLDER_ID = undefined;
   var SNAPSHOTS_FOLDER_ID = undefined;
+  
   var CONFIG_SPREADSHEET_ID = undefined;
   var FILE_TRACK_SPREADSHEET_ID = undefined;
   var DATA_SPREADSHEET_ID = undefined;
@@ -37,9 +37,7 @@ var WEDataHelper;
   }
   
   WEDataHelper.InitData = function() {
-    //InitMainFolder();
-//    InitFileTrackSpreadsheet();
-//    InitConfigSpreadsheet();
+    Logger.log("Init data");
     MAIN_FOLDER_ID = DriveHelper.GetOrInitFolder(MAIN_FOLDER_NAME);
     SNAPSHOTS_FOLDER_ID = DriveHelper.GetOrInitFolder(SNAPSHOTS_FOLDER_NAME, MAIN_FOLDER_ID);
     CONFIG_SPREADSHEET_ID = DriveHelper.GetOrInitGoogleFile(CONFIG_SPREADSHEET_NAME, MAIN_FOLDER_ID, "spreadsheet");
@@ -48,6 +46,20 @@ var WEDataHelper;
     DASHBOARD_SPREADSHEET_ID = DriveHelper.GetOrInitGoogleFile(DASHBOARD_SPREADSHEET_NAME, MAIN_FOLDER_ID, "spreadsheet");
     
     MainMigrator.Run();
+    ConfigService.StoreImportantIds();
+  }
+  
+  WEDataHelper.LoadData = function() {
+    Logger.log("Load data");
+    MAIN_FOLDER_ID = DriveHelper.GetOrInitFolder(MAIN_FOLDER_NAME);
+    CONFIG_SPREADSHEET_ID = DriveHelper.GetOrInitGoogleFile(CONFIG_SPREADSHEET_NAME, MAIN_FOLDER_ID, "spreadsheet");
+    
+    var importantIds = ConfigService.GetImportandIds();
+
+    SNAPSHOTS_FOLDER_ID = importantIds[importantIds.map(function(e) { return e[0]; }).indexOf("SnapshotsFolder")][1];
+    DASHBOARD_SPREADSHEET_ID = importantIds[importantIds.map(function(e) { return e[0]; }).indexOf("DashboardSpreadsheet")][1];
+    DATA_SPREADSHEET_ID = importantIds[importantIds.map(function(e) { return e[0]; }).indexOf("DataSpreadsheet")][1];
+    FILE_TRACK_SPREADSHEET_ID = importantIds[importantIds.map(function(e) { return e[0]; }).indexOf("FileTrackSpreadsheet")][1];
   }
   
   WEDataHelper.GenerateUUIDV4 = function() {

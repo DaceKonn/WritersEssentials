@@ -28,5 +28,11 @@ var DataSpreadsheetMigrator;
     SheetHelper.CreateSheetWithColumns(spread, "Data", ["ProcessingDate", "FileId", "FileName", "TotalWordCount", "DailyWordCount"]);
     SetVersion(spread, 1);
   }
+  
+  DataSpreadsheetMigrator.MigrateToVersion2 = function(){
+    Logger.log("Migrating Data Spreadsheet to version 2");
+    SheetHelper.CreateSheetWithColumns(spread, "Processings", ["ProcessingDate"]);
+    SetVersion(spread, 2);
+  }
  
 }( DataSpreadsheetMigrator = DataSpreadsheetMigrator || {} ));

@@ -3,7 +3,40 @@ window.addEventListener('load', function() {
   console.log('Page is loaded');
 });
 
-function updateButton(email, button) {
-button.value = 'Clicked by ' + email;
-};
+var dashData = {};
+
+function onSuccessGetDashboardData(result) {
+   dashData = result;//JSON.parse(result);
+        var div = document.getElementById('avgWordCount');
+        div.innerHTML = dashData.Stats.AverageWordCount;
+        
+        div = document.getElementById('avgWordCount');
+        div.innerHTML = dashData.Stats.TotalWordsWritten;
+        
+        div = document.getElementById('totalWordCount');
+        div.innerHTML = dashData.Stats.TotalWordsWritten;
+        
+        div = document.getElementById('daysSinceInstall');
+        div.innerHTML = dashData.Stats.DaysSinceInstallation;
+        
+        div = document.getElementById('writDays');
+        div.innerHTML = dashData.Stats.WrittingDays;
+        
+        div = document.getElementById('currGoal');
+        div.innerHTML = dashData.Stats.CurrentGoalStreak;
+        
+        div = document.getElementById('longGoal');
+        div.innerHTML = dashData.Stats.LongestGoalStreak;
+        
+        div = document.getElementById('currWrit');
+        div.innerHTML = dashData.Stats.CurrentWritingStreak;
+        
+        div = document.getElementById('longWrit');
+        div.innerHTML = dashData.Stats.LongestWritingStreak;
+      }
+google.script.run.withSuccessHandler(onSuccessGetDashboardData).GetDashboardData();
+
+
+
+
 </script>

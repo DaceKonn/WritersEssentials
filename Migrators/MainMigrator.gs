@@ -23,7 +23,7 @@ var MainMigrator;
       RunMigrationPackage1();
     }
     if (!VerifyMigrationPackage2()){
-      Logger.log("Mock : Applying migration package 2");
+      RunMigrationPackage2();
     }
   }
   
@@ -45,6 +45,14 @@ var MainMigrator;
     if (fileV < 1) FileTrackSpreadsheetMigrator.MigrateToVersion1();
     if (configV < 1) ConfigSpreadsheetMigrator.MigrateToVersion1();
     if (dashV < 1) DashboardSpreadsheetMigrator.MigrateToVersion1();
+  }
+  
+  function RunMigrationPackage2() {
+    Logger.log("Applying migration package 2");
+    if (dataV < 2) DataSpreadsheetMigrator.MigrateToVersion2();
+//    if (fileV < 1) FileTrackSpreadsheetMigrator.MigrateToVersion1();
+    if (configV < 2) ConfigSpreadsheetMigrator.MigrateToVersion2();
+//    if (dashV < 1) DashboardSpreadsheetMigrator.MigrateToVersion1();
   }
   
   function GetVersions() {
