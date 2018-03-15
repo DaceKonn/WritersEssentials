@@ -23,18 +23,18 @@ var DashboardService;
     wordCounts.forEach(function (item, index) {
       var sevenAvg = 0;
       if (index > 0) {
-        var i = 0;
-        while (i <= index && i <= 7){
+        var i = index;
+        while (i >= 0 && i > index-7){
           sevenAvg += wordCounts[i][1];
-          i++;
+          i--;
         }
-        sevenAvg = sevenAvg/i;
+        sevenAvg = sevenAvg/(index-i);
       }
       else {
         sevenAvg = item[1];
       }
       
-      SheetHelper.AddRow(sheet, [item[0], item[1], goal, sevenAvg]);
+      SheetHelper.AddRow(sheet, [item[0], item[1], goal, Math.floor(sevenAvg*10)/10]);
     });
   }
   
@@ -60,7 +60,7 @@ var DashboardService;
     var sheet = LoadSheet("Stats");
     SheetHelper.ClearRows(sheet);
     
-    SheetHelper.AddRow(sheet, ["AverageWordCount", "=AVERAGE(DailyWordCount!B:B)"]);
+    SheetHelper.AddRow(sheet, ["AverageWordCount", "=FLOOR(AVERAGE(DailyWordCount!B:B); 0,1)"]);
     SheetHelper.AddRow(sheet, ["TotalWordsWritten", "=SUM(FileProgress!C:C)"]);
     SheetHelper.AddRow(sheet, ["DaysSinceInstallation", CheckDaysSinceInstallation()]);
     SheetHelper.AddRow(sheet, ["WrittingDays","=COUNT(DailyWordCount!A:A)"]);
