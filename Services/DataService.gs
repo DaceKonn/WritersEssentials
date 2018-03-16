@@ -23,8 +23,9 @@ var DataService;
         var doc2 = DocumentApp.openById(trackedFiles[i][1]).getText();
         var snapWords = WordCountProcessor.GetWordCount(doc2);
         var diffWords = totalWords - snapWords;
-        //if (diffWords < 0) diffWords = 0;
-        SheetHelper.AddRow(sheet, [processingDate, trackedFiles[i][0], name, totalWords, diffWords]);
+        if (diffWords > 0){
+          SheetHelper.AddRow(sheet, [processingDate, trackedFiles[i][0], name, totalWords, diffWords]);
+        }
       }
       else{
         SheetHelper.AddRow(sheet, [processingDate, trackedFiles[i][0], name, totalWords, totalWords]);

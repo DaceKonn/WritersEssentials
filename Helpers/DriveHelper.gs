@@ -68,15 +68,18 @@ var DriveHelper;
     var logTag = "{GetOrInitFolder} : ";
     var parentFolder = undefined;
     
+    var folderIterator;
     if (parentId == undefined) {
       parentFolder = DriveApp.getRootFolder();
+      folderIterator =  DriveApp.getFoldersByName(name);
     }
     else {
       parentFolder = DriveApp.getFolderById(parentId);
+      Logger.log(logTag+"Fetching folder: ["+ name+"]");
+      folderIterator =  parentFolder.getFoldersByName(name);
     }
       
-    Logger.log(logTag+"Fetching folder: ["+ name+"]");
-    var folderIterator =  parentFolder.getFoldersByName(name);
+
     
     var folderId;
     

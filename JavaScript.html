@@ -5,32 +5,44 @@ window.addEventListener('load', function() {
 
 var dashData = {};
 
+var statTemplate = `<div class="stat-card mdl-card mdl-shadow--2dp mdl-cell mdl-cell--2-col mdl-cell--2-col-tablet mdl-cell--2-col-desktop">
+              <div class="mdl-card__title mdl-card--expand">
+                <h2 class="mdl-card__title-text">{title}</h2>
+              </div>
+              <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+                <span id="{id}" class="stat-support-text"><div class="mdl-spinner mdl-js-spinner is-active"></div></span>
+              </div>
+            </div>`;
+
+            var div = document.getElementById('mainGrid');
+        div.innerHTML += statTemplate.replace("{title}", "Average word count").replace("{id}", "avgWordCount");
+        div.innerHTML += statTemplate.replace("{title}", "Total words written").replace("{id}", "totalWordCount");
+        div.innerHTML += statTemplate.replace("{title}", "Days since instalation").replace("{id}", "daysSinceInstall");
+        div.innerHTML += statTemplate.replace("{title}", "Writting days").replace("{id}", "writDays");
+        div.innerHTML += statTemplate.replace("{title}", "Current goal streak").replace("{id}", "currGoal");
+        div.innerHTML += statTemplate.replace("{title}", "Longest goal streak").replace("{id}", "longGoal");
+        div.innerHTML += statTemplate.replace("{title}", "Current writing streak").replace("{id}", "currWrit");
+        div.innerHTML += statTemplate.replace("{title}", "Longest writing streak").replace("{id}", "longWrit");
+
 function onSuccessGetDashboardData(result) {
-   dashData = result;//JSON.parse(result);
-        var div = document.getElementById('avgWordCount');
-        div.innerHTML = dashData.Stats.AverageWordCount;
+
         
-        div = document.getElementById('totalWordCount');
-        div.innerHTML = dashData.Stats.TotalWordsWritten;
-        
-        div = document.getElementById('daysSinceInstall');
-        div.innerHTML = dashData.Stats.DaysSinceInstallation;
-        
-        div = document.getElementById('writDays');
-        div.innerHTML = dashData.Stats.WrittingDays;
-        
-        div = document.getElementById('currGoal');
-        div.innerHTML = dashData.Stats.CurrentGoalStreak;
-        
-        div = document.getElementById('longGoal');
-        div.innerHTML = dashData.Stats.LongestGoalStreak;
-        
-        div = document.getElementById('currWrit');
-        div.innerHTML = dashData.Stats.CurrentWritingStreak;
-        
-        div = document.getElementById('longWrit');
-        div.innerHTML = dashData.Stats.LongestWritingStreak;
+        dashData = result;
+        replaceInnerHtml('avgWordCount', dashData.Stats.AverageWordCount);
+        replaceInnerHtml('totalWordCount', dashData.Stats.TotalWordsWritten);
+        replaceInnerHtml('daysSinceInstall', dashData.Stats.DaysSinceInstallation);
+        replaceInnerHtml('writDays', dashData.Stats.WrittingDays);
+        replaceInnerHtml('currGoal', dashData.Stats.CurrentGoalStreak);
+        replaceInnerHtml('longGoal', dashData.Stats.LongestGoalStreak);
+        replaceInnerHtml('currWrit', dashData.Stats.CurrentWritingStreak);
+        replaceInnerHtml('longWrit', dashData.Stats.LongestWritingStreak);
       }
+
+function replaceInnerHtml(id, newContet) {
+    var div = document.getElementById(id);
+    div.innerHTML = newContet;
+}
+
 google.script.run.withSuccessHandler(onSuccessGetDashboardData).GetDashboardData();
 
 
