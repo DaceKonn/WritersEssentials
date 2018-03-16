@@ -26,8 +26,8 @@ var DashboardSpreadsheetMigrator;
   DashboardSpreadsheetMigrator.MigrateToVersion1 = function(){
     Logger.log("Migrating Dashboard Spreadsheet to version 1");
     SheetHelper.CreateSheetWithColumns(spread, "DailyWordCount", ["Date", "SumWordCount", "Goal", "7DayAvg"]);
-    SheetHelper.CreateSheetWithColumns(spread, "FileProgress", ["FileId", "FileName", "TotalWordCount", "Goal"]);
-    SheetHelper.CreateSheetWithColumns(spread, "Stats", ["StatName", "Value"]);
+    SheetHelper.CreateSheetWithColumns(spread, "FileProgress", ["FileId", "FileName", "TotalWordCount", "Goal", "CurrentWordCount", "AvgPerSession"]);
+    SheetHelper.CreateSheetWithColumns(spread, "Stats", ["StatName", "Value", "DisplayName"]);
     SheetHelper.CreateSheetWithColumns(spread, "Dashboard", [""]);
     SetVersion(spread, 1);
   }

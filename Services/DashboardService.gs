@@ -52,7 +52,7 @@ var DashboardService;
         goal = goals[idx][1];
       }
       var fileName = DriveApp.getFileById(item[0]).getName();
-      SheetHelper.AddRow(sheet, [item[0], fileName, item[1], goal]);
+      SheetHelper.AddRow(sheet, [item[0], fileName, item[1], goal, "", ""]);
     });
   }
   
@@ -60,14 +60,14 @@ var DashboardService;
     var sheet = LoadSheet("Stats");
     SheetHelper.ClearRows(sheet);
     
-    SheetHelper.AddRow(sheet, ["AverageWordCount", "=FLOOR(AVERAGE(DailyWordCount!B:B); 0,1)"]);
-    SheetHelper.AddRow(sheet, ["TotalWordsWritten", "=SUM(FileProgress!C:C)"]);
-    SheetHelper.AddRow(sheet, ["DaysSinceInstallation", CheckDaysSinceInstallation()]);
-    SheetHelper.AddRow(sheet, ["WrittingDays","=COUNT(DailyWordCount!A:A)"]);
-    SheetHelper.AddRow(sheet, ["CurrentGoalStreak", CheckGoalStreak()]);
-    SheetHelper.AddRow(sheet, ["LongestGoalStreak", LONGEST_GOAL_STREAK]);
-    SheetHelper.AddRow(sheet, ["CurrentWritingStreak", CheckWritingStreak()]);
-    SheetHelper.AddRow(sheet, ["LongestWritingStreak", LONGEST_WRITING_STREAK]);
+    SheetHelper.AddRow(sheet, ["AverageWordCountPerSession", "=FLOOR(AVERAGE(DailyWordCount!B:B); 0,1)", "Average word count per session"]);
+    SheetHelper.AddRow(sheet, ["TotalWordsWritten", "=SUM(FileProgress!C:C)", "Total words written"]);
+    SheetHelper.AddRow(sheet, ["DaysSinceInstallation", CheckDaysSinceInstallation(), "Days since instalation"]);
+    SheetHelper.AddRow(sheet, ["WrittingDays","=COUNT(DailyWordCount!A:A)", "Writting days"]);
+    SheetHelper.AddRow(sheet, ["CurrentGoalStreak", CheckGoalStreak(), "Current goal streak"]);
+    SheetHelper.AddRow(sheet, ["LongestGoalStreak", LONGEST_GOAL_STREAK, "Longest goal streak"]);
+    SheetHelper.AddRow(sheet, ["CurrentWritingStreak", CheckWritingStreak(), "Current writing streak"]);
+    SheetHelper.AddRow(sheet, ["LongestWritingStreak", LONGEST_WRITING_STREAK, "Longest writing streak"]);
     
     
   }
@@ -173,6 +173,10 @@ var DashboardService;
   DashboardService.GetStats = function() {
     var sheet = LoadSheet("Stats");
     return SheetHelper.GetRows(sheet);
+  }
+  
+  DashboardService.GetFileStats = function() {
+
   }
 
 }( DashboardService = DashboardService || {} ));

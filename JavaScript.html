@@ -1,4 +1,5 @@
 <script>
+
 window.addEventListener('load', function() {
   console.log('Page is loaded');
 });
@@ -10,32 +11,19 @@ var statTemplate = `<div class="stat-card mdl-card mdl-shadow--2dp mdl-cell mdl-
                 <h2 class="mdl-card__title-text">{title}</h2>
               </div>
               <div class="mdl-card__supporting-text mdl-color-text--grey-600">
-                <span id="{id}" class="stat-support-text"><div class="mdl-spinner mdl-js-spinner is-active"></div></span>
+                <span id="{id}" class="stat-support-text">{value}</span>
               </div>
             </div>`;
-
-            var div = document.getElementById('mainGrid');
-        div.innerHTML += statTemplate.replace("{title}", "Average word count").replace("{id}", "avgWordCount");
-        div.innerHTML += statTemplate.replace("{title}", "Total words written").replace("{id}", "totalWordCount");
-        div.innerHTML += statTemplate.replace("{title}", "Days since instalation").replace("{id}", "daysSinceInstall");
-        div.innerHTML += statTemplate.replace("{title}", "Writting days").replace("{id}", "writDays");
-        div.innerHTML += statTemplate.replace("{title}", "Current goal streak").replace("{id}", "currGoal");
-        div.innerHTML += statTemplate.replace("{title}", "Longest goal streak").replace("{id}", "longGoal");
-        div.innerHTML += statTemplate.replace("{title}", "Current writing streak").replace("{id}", "currWrit");
-        div.innerHTML += statTemplate.replace("{title}", "Longest writing streak").replace("{id}", "longWrit");
 
 function onSuccessGetDashboardData(result) {
 
         
         dashData = result;
-        replaceInnerHtml('avgWordCount', dashData.Stats.AverageWordCount);
-        replaceInnerHtml('totalWordCount', dashData.Stats.TotalWordsWritten);
-        replaceInnerHtml('daysSinceInstall', dashData.Stats.DaysSinceInstallation);
-        replaceInnerHtml('writDays', dashData.Stats.WrittingDays);
-        replaceInnerHtml('currGoal', dashData.Stats.CurrentGoalStreak);
-        replaceInnerHtml('longGoal', dashData.Stats.LongestGoalStreak);
-        replaceInnerHtml('currWrit', dashData.Stats.CurrentWritingStreak);
-        replaceInnerHtml('longWrit', dashData.Stats.LongestWritingStreak);
+        var div = document.getElementById('mainGrid');
+        result.Stats.forEach(element => {
+            addStatCard(div, element);
+        });
+        
       }
 
 function replaceInnerHtml(id, newContet) {
@@ -43,9 +31,14 @@ function replaceInnerHtml(id, newContet) {
     div.innerHTML = newContet;
 }
 
+function addStatCard(div, stat){
+    div.innerHTML += statTemplate
+        .replace("{id}", stat.Id)
+        .replace("{title}", stat.DisplayName)
+        .replace("{value}", stat.Value);
+}
+
 google.script.run.withSuccessHandler(onSuccessGetDashboardData).GetDashboardData();
-
-
 
 
 </script>

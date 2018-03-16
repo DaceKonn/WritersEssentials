@@ -5,20 +5,25 @@ var DashboardController;
 DashboardController.GetDashboardData = function() {
   WEDataHelper.LoadData();
   
-  var stats = DashboardService.GetStats();
-  
   var temp = {};
-  temp.Stats = {};
-  
-  stats.forEach(function(item, index) {
-    temp.Stats[item[0]] = item[1];
-  });
+  AddStats(temp);
 
   return temp;
+}
+
+function AddStats(root) {
+  var stats = DashboardService.GetStats();
+  root.Stats = [];
+  
+  stats.forEach(function(item, index) {
+    root.Stats.push({ Id: item[0], Value:item[1], DisplayName:item[2] });
+  });
 }
  
 }( DashboardController = DashboardController || {} ));
 
 function GetDashboardData(){
-  return DashboardController.GetDashboardData();
+  var result = DashboardController.GetDashboardData();
+  Logger.log(result);
+  return result;
 }
