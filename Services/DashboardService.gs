@@ -18,17 +18,27 @@ var DashboardService;
     var goal = ConfigService.GetCurrentGoal();
     var wordCounts = DataService.GetDailyWordCounts();
     
+    
     SheetHelper.ClearRows(sheet);
     
     wordCounts.forEach(function (item, index) {
       var sevenAvg = 0;
+      var devideBy = 1;
+      var previous;
+      
       if (index > 0) {
+        
         var i = index;
         while (i >= 0 && i > index-7){
           sevenAvg += wordCounts[i][1];
+          if (previous != undefined) {
+            devideBy += Math.abs(DateTimeHelper.DaysBetween(new Date(previous[0]), new Date(wordCounts[i][0])));
+          }
+          previous = wordCounts[i];
           i--;
         }
-        sevenAvg = sevenAvg/(index-i);
+
+        sevenAvg = sevenAvg/devideBy;//(index-i);
       }
       else {
         sevenAvg = item[1];
@@ -57,23 +67,28 @@ var DashboardService;
   }
   
   function ResetStatsSheet() {
-    var sheet = LoadSheet("Stats");
-    SheetHelper.ClearRows(sheet);
-    SheetHelper.AddRow(sheet, ["ProcessingDay", CheckProcessingDate(), "Dashboard date"]);
-    SheetHelper.AddRow(sheet, ["AverageWordCountPerSession", "=FLOOR(AVERAGE(DailyWordCount!B:B); 1)", "Average word count per session"]);
-    SheetHelper.AddRow(sheet, ["TotalWordsWritten", "=SUM(FileProgress!C:C)", "Total words written"]);
-    SheetHelper.AddRow(sheet, ["DaysSinceInstallation", CheckDaysSinceInstallation(), "Days since instalation"]);
-    SheetHelper.AddRow(sheet, ["WrittingDays","=COUNT(DailyWordCount!A:A)", "Writting days"]);
-    SheetHelper.AddRow(sheet, ["CurrentGoalStreak", CheckGoalStreak(), "Current goal streak"]);
-    SheetHelper.AddRow(sheet, ["LongestGoalStreak", LONGEST_GOAL_STREAK, "Longest goal streak"]);
-    SheetHelper.AddRow(sheet, ["CurrentWritingStreak", CheckWritingStreak(), "Current writing streak"]);
-    SheetHelper.AddRow(sheet, ["LongestWritingStreak", LONGEST_WRITING_STREAK, "Longest writing streak"]);
+    var wordCountSheet = LoadSheet("DailyWordCount");
+    var statsSheet = LoadSheet("Stats");
+    SheetHelper.ClearRows(statsSheet);
+    SheetHelper.AddRow(statsSheet, ["ProcessingDay", CheckProcessingDate(wordCountSheet), "Dashboard date"]);
+    SheetHelper.AddRow(statsSheet, ["WordCount", CheckLastWordCount(wordCountSheet), "Last word count"]);
+    SheetHelper.AddRow(statsSheet, ["SevenDayAverage", CheckSevenAvg(wordCountSheet), "Last 7 days average"]);
+    SheetHelper.AddRow(statsSheet, ["AverageWordCountPerSession", "=FLOOR(AVERAGE(DailyWordCount!B:B); 1)", "Average word count per session"]);
+    SheetHelper.AddRow(statsSheet, ["TotalWordsWritten", "=SUM(FileProgress!C:C)", "Total words written"]);
+    SheetHelper.AddRow(statsSheet, ["DaysSinceInstallation", CheckDaysSinceInstallation(), "Days since instalation"]);
+    SheetHelper.AddRow(statsSheet, ["WrittingDays","=COUNT(DailyWordCount!A:A)", "Writting days"]);
+    SheetHelper.AddRow(statsSheet, ["LastSetGoal", CheckLastGoal(wordCountSheet), "Last set goal"]);
+    SheetHelper.AddRow(statsSheet, ["CurrentGoalStreak", CheckGoalStreak(wordCountSheet), "Current goal streak"]);
+    SheetHelper.AddRow(statsSheet, ["LongestGoalStreak", LONGEST_GOAL_STREAK, "Longest goal streak"]);
+    SheetHelper.AddRow(statsSheet, ["CurrentWritingStreak", CheckWritingStreak(wordCountSheet), "Current writing streak"]);
+    SheetHelper.AddRow(statsSheet, ["LongestWritingStreak", LONGEST_WRITING_STREAK, "Longest writing streak"]);
+    
     
     
   }
   
-  function CheckGoalStreak() {
-    var sheet = LoadSheet("DailyWordCount");
+  function CheckGoalStreak(sheet) {
+    //var sheet = LoadSheet("DailyWordCount");
     var streak = 0;
     var previousDay = undefined;
     
@@ -109,27 +124,36 @@ var DashboardService;
     return streak;
   }
   
-  function CheckProcessingDate() {
-    var sheet = LoadSheet("DailyWordCount");
-    var rows = SheetHelper.GetRows(sheet);
-    var result;
+  function CheckProcessingDate(sheet) {
+    //var sheet = LoadSheet("DailyWordCount");
+    var row = SheetHelper.GetLastRow(sheet);
     
-    for (i in rows) {
-      if (result == undefined) {
-        result = DateTimeHelper.FormatToSimpliefiedCalendar(rows[i][0]);
-      }
-      else {
-        if (new Date(result) < new Date(rows[i][0])) {
-          result = DateTimeHelper.FormatToSimpliefiedCalendar(rows[i][0]);
-        }
-      }
-      
-    }
-    return result.replace("-", "z");
+    return DateTimeHelper.FormatToSimpliefiedCalendar(row[0][0]).replace("-", "z");
   }
   
-  function CheckWritingStreak() {
-    var sheet = LoadSheet("DailyWordCount");
+  function CheckLastWordCount(sheet) {
+    //var sheet = LoadSheet("DailyWordCount");
+    var row = SheetHelper.GetLastRow(sheet);
+    
+    return row[0][1];
+  }
+  
+  function CheckLastGoal(sheet) {
+    //var sheet = LoadSheet("DailyWordCount");
+    var row = SheetHelper.GetLastRow(sheet);
+    
+    return row[0][2];
+  }
+  
+  function CheckSevenAvg(sheet) {
+    //var sheet = LoadSheet("DailyWordCount");
+    var row = SheetHelper.GetLastRow(sheet);
+    
+    return row[0][3];
+  }
+  
+  function CheckWritingStreak(sheet) {
+    //var sheet = LoadSheet("DailyWordCount");
     var streak = 0;
     var previousDay = undefined;
     

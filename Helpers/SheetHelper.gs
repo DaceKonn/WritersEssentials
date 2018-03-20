@@ -35,6 +35,19 @@ var SheetHelper;
     }
   }
   
+  SheetHelper.GetLastRow = function(sheet) {
+    var lastRow = sheet.getLastRow();
+    var lastColumn = sheet.getLastColumn();
+
+    if (lastRow > 1){
+      
+      var range = sheet.getRange(lastRow, 1, 1, lastColumn);
+      return range.getValues();
+    }
+    
+    return undefined;
+  }
+  
   SheetHelper.GetRows = function(sheet) {
     var lastRow = sheet.getLastRow();
     var lastColumn = sheet.getLastColumn();

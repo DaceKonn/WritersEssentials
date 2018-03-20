@@ -18,6 +18,7 @@ var DataService;
       var doc1 = doc.getText();  
       var name = doc.getName();
       var totalWords = WordCountProcessor.GetWordCount(doc1);
+      var backup = true;
       
       if (trackedFiles[i][1] != "none"){
         var doc2 = DocumentApp.openById(trackedFiles[i][1]).getText();
@@ -25,12 +26,13 @@ var DataService;
         var diffWords = totalWords - snapWords;
         if (diffWords > 0){
           SheetHelper.AddRow(sheet, [processingDate, trackedFiles[i][0], name, totalWords, diffWords]);
+          backup = false;
         }
       }
       else{
         SheetHelper.AddRow(sheet, [processingDate, trackedFiles[i][0], name, totalWords, totalWords]);
       }
-      FileTrackService.BackupFile(trackedFiles[i][0]);
+      if (backup) {FileTrackService.BackupFile(trackedFiles[i][0]);}
     }
   }
   
