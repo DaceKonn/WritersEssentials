@@ -32,10 +32,25 @@ function replaceInnerHtml(id, newContet) {
 }
 
 function addStatCard(div, stat){
+
+var value;
+
+if (/\d{4}z\d{2}-\d{2}$/.test(stat.Value)) {
+
+value = stat.Value.replace("z", "-");
+
+}
+else {
+
+value = stat.Value;
+
+}
+
+
     div.innerHTML += statTemplate
         .replace("{id}", stat.Id)
         .replace("{title}", stat.DisplayName)
-        .replace("{value}", stat.Value);
+        .replace("{value}", value);
 }
 
 google.script.run.withSuccessHandler(onSuccessGetDashboardData).GetDashboardData();

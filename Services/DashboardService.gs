@@ -59,8 +59,8 @@ var DashboardService;
   function ResetStatsSheet() {
     var sheet = LoadSheet("Stats");
     SheetHelper.ClearRows(sheet);
-    
-    SheetHelper.AddRow(sheet, ["AverageWordCountPerSession", "=FLOOR(AVERAGE(DailyWordCount!B:B); 0,1)", "Average word count per session"]);
+    SheetHelper.AddRow(sheet, ["ProcessingDay", CheckProcessingDate(), "Dashboard date"]);
+    SheetHelper.AddRow(sheet, ["AverageWordCountPerSession", "=FLOOR(AVERAGE(DailyWordCount!B:B); 1)", "Average word count per session"]);
     SheetHelper.AddRow(sheet, ["TotalWordsWritten", "=SUM(FileProgress!C:C)", "Total words written"]);
     SheetHelper.AddRow(sheet, ["DaysSinceInstallation", CheckDaysSinceInstallation(), "Days since instalation"]);
     SheetHelper.AddRow(sheet, ["WrittingDays","=COUNT(DailyWordCount!A:A)", "Writting days"]);
@@ -107,6 +107,25 @@ var DashboardService;
     });
     
     return streak;
+  }
+  
+  function CheckProcessingDate() {
+    var sheet = LoadSheet("DailyWordCount");
+    var rows = SheetHelper.GetRows(sheet);
+    var result;
+    
+    for (i in rows) {
+      if (result == undefined) {
+        result = DateTimeHelper.FormatToSimpliefiedCalendar(rows[i][0]);
+      }
+      else {
+        if (new Date(result) < new Date(rows[i][0])) {
+          result = DateTimeHelper.FormatToSimpliefiedCalendar(rows[i][0]);
+        }
+      }
+      
+    }
+    return result.replace("-", "z");
   }
   
   function CheckWritingStreak() {
