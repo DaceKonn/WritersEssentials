@@ -23,15 +23,7 @@ var FileTrackService;
     
     var headers = SheetHelper.GetHeaders(sheet);
     var rows = SheetHelper.GetRows(sheet);
-    
-    var fileIdIndex = headers.indexOf("FileId");
-    var snapshotIdIndex = headers.indexOf("SnapshotId");
-    
-    var result = [];
-    rows.forEach(function (item, index) {
-      SheetHelper.ForEachRowGetValuesForHeaderIndexArray(item, index, [fileIdIndex, snapshotIdIndex], result);
-    });
-    return result;
+    return rows;
   }
   
   FileTrackService.GetAllFileGoals = function() {
@@ -65,10 +57,13 @@ var FileTrackService;
     return spread.getSheetByName("FileGoals");
   }
   
-  FileTrackService.BackupFile = function(fileId) {
+  FileTrackService.BackupFile = function(fileId, wordCount) {
     var sheet = LoadFileTrackSheet();
     var rowId = SheetHelper.FindInColumn(sheet, "A", fileId);
     var snapshotCell = sheet.getRange(rowId, 2);
+    var wordCountCell = sheet.getRange(rowId, 3);
+    
+    wordCountCell.setValue(wordCount);
     var snapshotId = snapshotCell.getValue();
     
     if (snapshotId !== "none") {
@@ -98,4 +93,43 @@ var FileTrackService;
     
   }
   
+  FileTrackService.GetSnapedWordCount = function(fileId) {
+    var sheet = LoadFileTrackSheet();
+    var rowId = SheetHelper.FindInColumn(sheet, "A", fileId);
+
+    return sheet.getRange(rowId, 3);
+  }
+  
+  FileTrackService.CheckCurrentWordCount = function() {
+    var trackedFiles = FileTrackService.GetTrackingInfo();
+    var currentCalendarTime = DateTimeHelper.GetNowCalendar();
+    var wordCount = 0;
+    
+    for (i in trackedFiles) { 
+      var doc = DocumentApp.openById(trackedFiles[i][0]);
+      var doc1 = doc.getText();  
+      var name = doc.getName();
+      var totalWords = WordCountProcessor.GetWordCount(doc1);
+
+      
+      if (trackedFiles[i][1] != "none"){
+        var snapWords = trackedFiles[i][2];
+        var diffWords = totalWords - snapWords;
+        wordCount += diffWords;
+      }
+      else {
+        wordCount += totalWords;
+      }
+
+    }
+    
+    return { checkTime: currentCalendarTime, wordCount: wordCount };
+  }
+  
 }( FileTrackService = FileTrackService || {} ));
+
+function CheckCurrentWordCount() {
+  WEDataHelper.LoadData();
+  var wordCount = FileTrackService.CheckCurrentWordCount();
+  Logger.log(wordCount);
+}

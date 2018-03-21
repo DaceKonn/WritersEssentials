@@ -21,18 +21,20 @@ var DataService;
       var backup = true;
       
       if (trackedFiles[i][1] != "none"){
-        var doc2 = DocumentApp.openById(trackedFiles[i][1]).getText();
-        var snapWords = WordCountProcessor.GetWordCount(doc2);
+        //var doc2 = DocumentApp.openById(trackedFiles[i][1]).getText();
+        var snapWords = trackedFiles[i][2]//WordCountProcessor.GetWordCount(doc2);
         var diffWords = totalWords - snapWords;
         if (diffWords > 0){
           SheetHelper.AddRow(sheet, [processingDate, trackedFiles[i][0], name, totalWords, diffWords]);
+        }
+        else {
           backup = false;
         }
       }
       else{
         SheetHelper.AddRow(sheet, [processingDate, trackedFiles[i][0], name, totalWords, totalWords]);
       }
-      if (backup) {FileTrackService.BackupFile(trackedFiles[i][0]);}
+      if (backup) {FileTrackService.BackupFile(trackedFiles[i][0], totalWords);}
     }
   }
   

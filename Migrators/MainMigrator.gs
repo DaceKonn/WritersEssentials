@@ -50,7 +50,7 @@ var MainMigrator;
   function RunMigrationPackage2() {
     Logger.log("Applying migration package 2");
     if (dataV < 2) DataSpreadsheetMigrator.MigrateToVersion2();
-//    if (fileV < 1) FileTrackSpreadsheetMigrator.MigrateToVersion1();
+    if (fileV < 2) FileTrackSpreadsheetMigrator.MigrateToVersion2();
     if (configV < 2) ConfigSpreadsheetMigrator.MigrateToVersion2();
 //    if (dashV < 1) DashboardSpreadsheetMigrator.MigrateToVersion1();
   }

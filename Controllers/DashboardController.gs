@@ -18,6 +18,12 @@ function AddStats(root) {
   stats.forEach(function(item, index) {
     root.Stats.push({ Id: item[0], Value:item[1], DisplayName:item[2] });
   });
+  
+  var currentWordCountCheck = FileTrackService.CheckCurrentWordCount();
+  root.Stats.push({ Id: "wordCountCheckTime", Value:currentWordCountCheck.checkTime, DisplayName:"Current word count check time" });
+  root.Stats.push({ Id: "wordCountCheckValue", Value:currentWordCountCheck.wordCount, DisplayName:"Current word count check" });
+    
+    
 }
  
 }( DashboardController = DashboardController || {} ));
