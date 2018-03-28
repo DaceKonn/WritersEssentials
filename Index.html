@@ -34,12 +34,38 @@
     <div class="page-content">
     <!-- Your content goes here -->
         <div id="mainGrid" class="mdl-grid">
+            <div id="p2" class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
             
+        </div>
+        <div id="secondMainGrid" class="mdl-grid">
+            <div class="stat-card mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--12-col-desktop">
+                <div class="mdl-card__title mdl-card--expand">
+                  <h2 class="mdl-card__title-text">File tracking</h2>
+                </div>
+                <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+                  <span id="fileTrackList" class="stat-support-text">
+                    <div id="p2" class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
+                  </span>
+                  <button id="show-dialog" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored mdl-js-ripple-effect">
+                    <i class="material-icons">add</i>
+                  </button>
+                </div>
+              </div>
             
         </div>
     </div>
   </main>
 </div>
+
+<dialog class="mdl-dialog">
+        <h4 class="mdl-dialog__title">Add file to track</h4>
+        <div id="addDialogContent" class="mdl-dialog__content">
+                <div class="mdl-spinner mdl-js-spinner is-active"></div>
+        </div>
+        <div class="mdl-dialog__actions">
+          <button type="button" class="mdl-button close">Close</button>
+        </div>
+      </dialog>
 
     <?!= include('JavaScript'); ?>
   </body>

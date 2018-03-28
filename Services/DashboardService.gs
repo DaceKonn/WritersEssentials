@@ -219,7 +219,8 @@ var DashboardService;
   }
   
   DashboardService.GetFileStats = function() {
-
+    var sheet = LoadSheet("FileProgress");
+    return SheetHelper.GetRows(sheet);
   }
 
 }( DashboardService = DashboardService || {} ));

@@ -44,7 +44,7 @@ var FileTrackService;
   
   FileTrackService.AddFileToTrack = function(fileId) {
     var sheet = LoadFileTrackSheet();
-    SheetHelper.AddRow(sheet, [fileId,"none"]);
+    SheetHelper.AddRow(sheet, [fileId,"none", 0]);
   }
   
   function LoadFileTrackSheet(){
