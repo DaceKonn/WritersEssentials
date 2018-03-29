@@ -10,6 +10,7 @@ var DataService;
     var trackedFiles = FileTrackService.GetTrackingInfo();
     var processingDate = DateTimeHelper.GetNowUTC();
     var sheet = LoadDataSheet();
+    var latestSheet = LoadLatestSheet();
 
     AddProcessingDate(processingDate);    
     
@@ -18,6 +19,7 @@ var DataService;
       var doc1 = doc.getText();  
       var name = doc.getName();
       var totalWords = WordCountProcessor.GetWordCount(doc1);
+      var totalChars = WordCountProcessor.GetCharCount(doc1);
       var backup = true;
       
       if (trackedFiles[i][1] != "none"){
@@ -25,7 +27,8 @@ var DataService;
         var snapWords = trackedFiles[i][2]//WordCountProcessor.GetWordCount(doc2);
         var diffWords = totalWords - snapWords;
         if (diffWords > 0){
-          SheetHelper.AddRow(sheet, [processingDate, trackedFiles[i][0], name, totalWords, diffWords]);
+          SheetHelper.AddRow(sheet, [processingDate, trackedFiles[i][0], name, totalWords, diffWords, totalChars]);
+          SheetHelper.AddRow(latestSheet, [trackedFiles[i][0], name, totalWords, totalChars]);
         }
         else {
           backup = false;
@@ -34,8 +37,14 @@ var DataService;
       else{
         SheetHelper.AddRow(sheet, [processingDate, trackedFiles[i][0], name, totalWords, totalWords]);
       }
-      if (backup) {FileTrackService.BackupFile(trackedFiles[i][0], totalWords);}
+      if (backup) {FileTrackService.BackupFile(trackedFiles[i][0], totalWords, totalChars);}
     }
+  }
+  
+  DataService.GetLatestData = function() {
+    var sheet = LoadLatestSheet();
+    var rows = SheetHelper.GetRows(sheet);
+    return rows;
   }
   
   DataService.GetDailyWordCounts = function() {
@@ -76,6 +85,11 @@ var DataService;
   function LoadDataSheet(){
     var spread = SpreadsheetApp.openById(WEDataHelper.GetDataSpreadsheetId());
     return spread.getSheetByName("Data");
+  }
+  
+  function LoadLatestSheet(){
+    var spread = SpreadsheetApp.openById(WEDataHelper.GetDataSpreadsheetId());
+    return spread.getSheetByName("LatestData");
   }
 
   function DailyWordCountGroupByDate(array) {

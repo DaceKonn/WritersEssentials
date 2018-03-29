@@ -50,19 +50,20 @@ var DashboardService;
   
   function ResetFileProgressSheet() {
     var sheet = LoadSheet("FileProgress");
-    var totalWordCounts = DataService.GetFilesTotalWordCount();
+    var latestData = DataService.GetLatestData();
+    //var totalWordCounts = DataService.GetFilesTotalWordCount();
     var goals = FileTrackService.GetAllFileGoals();
     
     SheetHelper.ClearRows(sheet);
     
-    totalWordCounts.forEach(function (item, index) {
+    latestData.forEach(function (item, index) {
       var idx = goals.map(function(e) {return e[0];}).indexOf(item[0]);
       var goal = 0;
       if (idx >= 0){
         goal = goals[idx][1];
       }
-      var fileName = DriveApp.getFileById(item[0]).getName();
-      SheetHelper.AddRow(sheet, [item[0], fileName, item[1], goal, "", ""]);
+      //var fileName = DriveApp.getFileById(item[0]).getName();
+      SheetHelper.AddRow(sheet, [item[0], item[1], item[2], goal, "", "", item[3], ""]);
     });
   }
   

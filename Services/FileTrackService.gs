@@ -20,8 +20,6 @@ var FileTrackService;
   
   FileTrackService.GetTrackingInfo = function() {
     var sheet = LoadFileTrackSheet();
-    
-    var headers = SheetHelper.GetHeaders(sheet);
     var rows = SheetHelper.GetRows(sheet);
     return rows;
   }
@@ -44,7 +42,7 @@ var FileTrackService;
   
   FileTrackService.AddFileToTrack = function(fileId) {
     var sheet = LoadFileTrackSheet();
-    SheetHelper.AddRow(sheet, [fileId,"none", 0]);
+    SheetHelper.AddRow(sheet, [fileId,"none", 0, 0]);
   }
   
   function LoadFileTrackSheet(){
@@ -57,13 +55,15 @@ var FileTrackService;
     return spread.getSheetByName("FileGoals");
   }
   
-  FileTrackService.BackupFile = function(fileId, wordCount) {
+  FileTrackService.BackupFile = function(fileId, wordCount, charCount) {
     var sheet = LoadFileTrackSheet();
     var rowId = SheetHelper.FindInColumn(sheet, "A", fileId);
     var snapshotCell = sheet.getRange(rowId, 2);
     var wordCountCell = sheet.getRange(rowId, 3);
+    var charCountCell = sheet.getRange(rowId, 4);
     
     wordCountCell.setValue(wordCount);
+    charCountCell.setValue(charCount);
     var snapshotId = snapshotCell.getValue();
     
     if (snapshotId !== "none") {

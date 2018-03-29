@@ -64,20 +64,22 @@ var DashboardController;
       
       var name = "";
       var wordCount = "untracked";
+      var charCount = "untracked";
       var goal = "none";
       
       if (statsId > -1)
       {
         var fileStat = stats[statsId];
-        var name = fileStat[1];
-        var wordCount = fileStat[2];
-        var goal = fileStat[3];
+        name = fileStat[1];
+        wordCount = fileStat[2];
+        goal = fileStat[3];
+        charCount = fileStat[6];
       }
       else {
         name = DriveApp.getFileById(item[0]).getName();
       }
       
-      root.FileTrack.push({Name: name, WordCount: wordCount, Goal: goal});
+      root.FileTrack.push({Name: name, WordCount: wordCount, Goal: goal, CharCount: charCount});
     });
   }
  

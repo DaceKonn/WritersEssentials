@@ -20,8 +20,10 @@ var fileTrackTableTemplate = `<div class="table-responsive"><table class="mdl-da
                             <tr>
                                 <th class="mdl-data-table__cell--non-numeric">Name</th>
                                 <th>Word Count</th>
+                                <th>Char Count</th>
                                 <th>Goal</th>
                                 <th>Progress</th>
+                                <th>Pages</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -33,8 +35,10 @@ var fileTrackTableTemplate = `<div class="table-responsive"><table class="mdl-da
 var fileTrackRowTemplate = `<tr>
                             <td class="mdl-data-table__cell--non-numeric">{name}</td>
                             <td>{wordCount}</td>
+                            <td>{charCount}</td>
                             <td>{goal}</td>
                             <td>{progress}</td>
+                            <td>{pages}</td>
                             </tr>`;
 
 var fileListTableTemplate = `<div class="table-responsive"><table class="mdl-data-table mdl-js-data-table">
@@ -71,11 +75,14 @@ function onSuccessGetDashboardData(result) {
         if (element.WordCount >= 0 && element.Goal > 0) {
             progress = Math.floor(element.WordCount/element.Goal*100)+"%";
         }
+        var pages = Math.ceil(element.WordCount/300) + " - " + Math.ceil(element.WordCount/250) + " / " + Math.ceil(element.CharCount/1800);
         var row = fileTrackRowTemplate
         .replace("{name}", element.Name)
         .replace("{wordCount}", element.WordCount)
+        .replace("{charCount}", element.CharCount)
         .replace("{goal}", element.Goal)
-        .replace("{progress}", progress);
+        .replace("{progress}", progress)
+        .replace("{pages}", pages);
         trackRows += row;
     });
 

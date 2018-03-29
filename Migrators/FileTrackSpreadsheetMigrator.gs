@@ -54,6 +54,27 @@ var FileTrackSpreadsheetMigrator;
     
     SetVersion(spread, 2);
   }
+  
+  FileTrackSpreadsheetMigrator.MigrateToVersion3 = function(){
+    Logger.log("Migrating FileTrack Spreadsheet to version 3");
+    var sheet = spread.getSheetByName("FileTrack");
+    sheet.insertColumnAfter(sheet.getMaxColumns());
+    var lastI = sheet.getMaxColumns();
+    
+    var lastHeader = sheet.getRange(1, lastI);
+    lastHeader.setValue("LastCharCount");
+    
+    var rows = SheetHelper.GetRows(sheet);
+    
+    
+    rows.forEach(function(item,index) { 
+      var doc2 = DocumentApp.openById(item[1]).getText();
+      var snapWords = WordCountProcessor.GetCharCount(doc2);
+      sheet.getRange(index+2, lastI).setValue(snapWords);
+    });
+    
+    SetVersion(spread, 3);
+  }
  
  
 }( FileTrackSpreadsheetMigrator = FileTrackSpreadsheetMigrator || {} ));

@@ -34,5 +34,33 @@ var DataSpreadsheetMigrator;
     SheetHelper.CreateSheetWithColumns(spread, "Processings", ["ProcessingDate"]);
     SetVersion(spread, 2);
   }
+  
+  DataSpreadsheetMigrator.MigrateToVersion3 = function(){
+    Logger.log("Migrating Data Spreadsheet to version 3");
+    var sheet = spread.getSheetByName("Data");
+    sheet.insertColumnAfter(sheet.getMaxColumns());
+    var lastI = sheet.getMaxColumns();
+    
+    var lastHeader = sheet.getRange(1, lastI);
+    lastHeader.setValue("TotalCharCount");
+    
+    var rows = SheetHelper.GetRows(sheet);
+    
+    
+    rows.forEach(function(item,index) { 
+      var doc = DocumentApp.openById(item[1]).getText();
+      var snapWords = WordCountProcessor.GetCharCount(doc);
+      sheet.getRange(index+2, lastI).setValue(snapWords);
+    });
+    
+    var newSheet = SheetHelper.CreateSheetWithColumns(spread, "LatestData", ["FileId", "FileName","LastWordCount", "LastCharCount"]);
+    var trackingRows = FileTrackService.GetTrackingInfo();
+    
+    trackingRows.forEach(function(item,index) {
+      SheetHelper.AddRow(newSheet, [item[0], DriveApp.getFileById(item[0]).getName(),item[2], item[3]]);
+    });
+    
+    SetVersion(spread, 3);
+  }
  
 }( DataSpreadsheetMigrator = DataSpreadsheetMigrator || {} ));

@@ -25,6 +25,9 @@ var MainMigrator;
     if (!VerifyMigrationPackage2()){
       RunMigrationPackage2();
     }
+    if (!VerifyMigrationPackage3()){
+      RunMigrationPackage3();
+    }
   }
   
   function VerifyMigrationPackage0() {
@@ -36,7 +39,11 @@ var MainMigrator;
   }
   
   function VerifyMigrationPackage2() {
-    return configV >= 2 && dataV >= 2 && fileV >= 2 && dashV >= 2;
+    return configV >= 2 && dataV >= 2 && fileV >= 3 && dashV >= 2;
+  }
+  
+  function VerifyMigrationPackage3() {
+    return dataV >= 3;
   }
   
   function RunMigrationPackage1() {
@@ -51,7 +58,17 @@ var MainMigrator;
     Logger.log("Applying migration package 2");
     if (dataV < 2) DataSpreadsheetMigrator.MigrateToVersion2();
     if (fileV < 2) FileTrackSpreadsheetMigrator.MigrateToVersion2();
+    if (fileV < 3) FileTrackSpreadsheetMigrator.MigrateToVersion3();
     if (configV < 2) ConfigSpreadsheetMigrator.MigrateToVersion2();
+//    if (dashV < 1) DashboardSpreadsheetMigrator.MigrateToVersion1();
+  }
+  
+  function RunMigrationPackage3() {
+    Logger.log("Applying migration package 3");
+    if (dataV < 3) DataSpreadsheetMigrator.MigrateToVersion3();
+//    if (fileV < 2) FileTrackSpreadsheetMigrator.MigrateToVersion2();
+//    if (fileV < 3) FileTrackSpreadsheetMigrator.MigrateToVersion3();
+//    if (configV < 2) ConfigSpreadsheetMigrator.MigrateToVersion2();
 //    if (dashV < 1) DashboardSpreadsheetMigrator.MigrateToVersion1();
   }
   
