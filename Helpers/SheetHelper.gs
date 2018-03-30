@@ -35,6 +35,12 @@ var SheetHelper;
     }
   }
   
+  SheetHelper.UpdateRow = function(sheet, rowId,row) {
+    var lastColumn = sheet.getLastColumn();
+    var range = sheet.getRange(rowId, 1, 1, lastColumn);
+    range.setValues([row]);
+  }
+  
   SheetHelper.GetLastRow = function(sheet) {
     var lastRow = sheet.getLastRow();
     var lastColumn = sheet.getLastColumn();

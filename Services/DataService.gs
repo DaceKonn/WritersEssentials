@@ -28,7 +28,17 @@ var DataService;
         var diffWords = totalWords - snapWords;
         if (diffWords > 0){
           SheetHelper.AddRow(sheet, [processingDate, trackedFiles[i][0], name, totalWords, diffWords, totalChars]);
-          SheetHelper.AddRow(latestSheet, [trackedFiles[i][0], name, totalWords, totalChars]);
+          
+          var findId = SheetHelper.FindInRow(latestSheet, trackedFiles[i][0]);
+          
+          if (findId > -1) {
+            SheetHelper.UpdateRow(latestSheet, findId, [trackedFiles[i][0], name, totalWords, totalChars]);
+          }
+          else{
+            SheetHelper.AddRow(latestSheet, [trackedFiles[i][0], name, totalWords, totalChars]);
+          }
+          
+          
         }
         else {
           backup = false;
