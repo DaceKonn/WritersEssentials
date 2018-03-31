@@ -111,7 +111,7 @@ var SheetHelper;
   }
 
   SheetHelper.FindInRow = function(sheet, data) {
-    var rows  = sheet.getDataRange.getValues(); 
+    var rows  = sheet.getDataRange().getValues(); 
     
     for (var r=0; r<rows.length; r++) { 
       if ( rows[r].join("#").indexOf(data) !== -1 ) {
