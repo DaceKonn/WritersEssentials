@@ -45,7 +45,8 @@ var DataService;
         }
       }
       else{
-        SheetHelper.AddRow(sheet, [processingDate, trackedFiles[i][0], name, totalWords, totalWords]);
+        SheetHelper.AddRow(sheet, [processingDate, trackedFiles[i][0], name, totalWords, totalWords, totalChars]);
+        SheetHelper.AddRow(latestSheet, [trackedFiles[i][0], name, totalWords, totalChars]);
       }
       if (backup) {FileTrackService.BackupFile(trackedFiles[i][0], totalWords, totalChars);}
     }
